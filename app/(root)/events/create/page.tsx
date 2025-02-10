@@ -1,10 +1,12 @@
-import EventForm from "@/components/shared/EventForm"
+import EventForm from "@/components/shared/EventForm";
 import { auth } from "@clerk/nextjs";
 
 const CreateEvent = () => {
-  const { sessionClaims } = auth();
+  const { userId } = auth(); // Directly access userId
 
-  const userId = sessionClaims?.userId as string;
+  if (!userId) {
+    return <p className="text-center text-red-500">Error: User not authenticated</p>;
+  }
 
   return (
     <>
@@ -16,7 +18,7 @@ const CreateEvent = () => {
         <EventForm userId={userId} type="Create" />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default CreateEvent
+export default CreateEvent;
